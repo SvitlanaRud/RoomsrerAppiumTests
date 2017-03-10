@@ -68,6 +68,10 @@ public class AutomatingASimpleActionTest extends AppiumTest {
         element(By.name("overlay OK button")).click();
     }
 /*
+
+
+
+hhhhhhhhh
     @org.junit.Test
     public void overlay () throws Exception {
         signInPage();

@@ -38,6 +38,7 @@ public class AppiumTest implements SauceOnDemandSessionIdProvider {
 
     /** wait wraps Helpers.wait **/
     public static WebElement wait(By locator) {
+
         return Helpers.wait(locator);
     }
 
@@ -74,20 +75,33 @@ public class AppiumTest implements SauceOnDemandSessionIdProvider {
     private static Date date = new Date();
 
     /** Run before each test **/
+
     @Before
     public void setUp() throws Exception {
         DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability("appium-version", "1.1.0");
+        capabilities.setCapability("appium-version", "1.6.3");
         capabilities.setCapability("platformName", "Android");
-        capabilities.setCapability("deviceName", "Android");
-        capabilities.setCapability("platformVersion", "4.3");
+        capabilities.setCapability("platformVersion", "4.4");
+        capabilities.setCapability("deviceName", "GCSSxA2syuVQe0");
+        capabilities.setCapability("appPackage", "com.roomster");
+        capabilities.setCapability("app","/Users/svetarud/Documents/Projects/RoomsterAppiumTests/tutorial/projects/java_android/roomster.apk" );
+        URL serverAddress;
+        serverAddress = new URL("http://0.0.0.0:4723/wd/hub");
+        driver = new AndroidDriver(serverAddress, capabilities);
 
-        // Set job name on Sauce Labs
-        capabilities.setCapability("name", "Java Android tutorial " + date);
+        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+        Helpers.init(driver, serverAddress);
+    }
+
+
+        /*
+
+        Set job name on Sauce Labs
+        capabilities.setCapability("name", "Roomster " + date);
         String userDir = System.getProperty("user.dir");
 
         URL serverAddress;
-        String localApp = "api.apk";
+        String localApp = "roomster.apk";
         if (runOnSauce) {
             String user = auth.getUsername();
             String key = auth.getAccessKey();
@@ -101,26 +115,27 @@ public class AppiumTest implements SauceOnDemandSessionIdProvider {
             serverAddress = new URL("http://" + user + ":" + key + "@ondemand.saucelabs.com:80/wd/hub");
             driver = new AndroidDriver(serverAddress, capabilities);
         } else {
-            String appPath = Paths.get(userDir, localApp).toAbsolutePath().toString();
-            capabilities.setCapability("app", appPath);
-            serverAddress = new URL("http://127.0.0.1:4723/wd/hub");
+
+
+            capabilities.setCapability("app","/Users/svetarud/Documents/Projects/RoomsterAppiumTests/tutorial/projects/java_android/roomster.apk" );
+            serverAddress = new URL("http://0.0.0.0:4723/wd/hub");
             driver = new AndroidDriver(serverAddress, capabilities);
         }
 
         sessionId = driver.getSessionId().toString();
 
-        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-        Helpers.init(driver, serverAddress);
-    }
+        */
 
     /** Run after each test **/
+
     @After
     public void tearDown() throws Exception {
         if (driver != null) driver.quit();
     }
-
+/*
     /** If we're not on Sauce then return null otherwise SauceOnDemandTestWatcher will error. **/
     public String getSessionId() {
         return runOnSauce ? sessionId : null;
     }
 }
+

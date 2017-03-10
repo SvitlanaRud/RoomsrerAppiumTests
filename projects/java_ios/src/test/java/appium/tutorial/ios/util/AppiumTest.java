@@ -1,11 +1,11 @@
 package appium.tutorial.ios.util;
 
 import appium.tutorial.ios.page.HomePage;
+import io.appium.java_client.ios.IOSDriver;
 import com.saucelabs.common.SauceOnDemandAuthentication;
 import com.saucelabs.common.SauceOnDemandSessionIdProvider;
 import com.saucelabs.junit.SauceOnDemandTestWatcher;
-import com.saucelabs.saucerest.SauceREST;
-import io.appium.java_client.AppiumDriver;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -19,13 +19,13 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.io.File;
 import java.net.URL;
-import java.nio.file.Paths;
+
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class AppiumTest implements SauceOnDemandSessionIdProvider {
 
-    private AppiumDriver driver;
+    private IOSDriver wd;
 
     /**
      * Page object references. Allows using 'home' instead of 'HomePage' *
@@ -84,10 +84,22 @@ public class AppiumTest implements SauceOnDemandSessionIdProvider {
     @Before
     public void setUp() throws Exception {
         DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability("appium-version", "1.1.0");
-        capabilities.setCapability("platformVersion", "7.1");
+        capabilities.setCapability("appium-version", "1.6.3");
+        capabilities.setCapability("platformVersion", "10.1.1");
         capabilities.setCapability("platformName", "ios");
-        capabilities.setCapability("deviceName", "iPhone Simulator");
+        capabilities.setCapability("deviceName", "Tundra iPhone 6 ");
+        capabilities.setCapability("udid", "9d136c885493474015c0247ee50a0e9a6d435cb2");
+        capabilities.setCapability("app", "/Users/svetarud/Documents/Projects/RoomsterAppiumTests/tutorial/projects/java_ios/Roomster-rc.ipa");
+        URL serverAddress;
+        serverAddress = new URL("http://0.0.0.0:4723/wd/hub");
+        wd = new IOSDriver(serverAddress, capabilities);
+
+       wd.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+        Helpers.init(wd, serverAddress);
+    }
+
+
+        /*
 
         // Set job name on Sauce Labs
         capabilities.setCapability("name", "Java iOS tutorial " + date);
@@ -120,15 +132,19 @@ public class AppiumTest implements SauceOnDemandSessionIdProvider {
     /**
      * Run after each test *
      */
-    @After
-    public void tearDown() throws Exception {
-        if (driver != null) driver.quit();
-    }
 
-    /**
-     * If we're not on Sauce then return null otherwise SauceOnDemandTestWatcher will error. *
-     */
+        @After
+        public void tearDown() throws Exception {
+            if (wd != null) wd.quit();
+        }
+
+
+        /*
+         * If we're not on Sauce then return null otherwise SauceOnDemandTestWatcher will error. *
+         */
+
     public String getSessionId() {
         return runOnSauce ? sessionId : null;
     }
 }
+

@@ -1,17 +1,16 @@
 package appium.tutorial.android;
 
 import appium.tutorial.android.util.AppiumTest;
-
-import static appium.tutorial.android.util.Helpers.back;
+import org.junit.Test;
 
 public class PageObjectPatternTest extends AppiumTest {
 
-    @org.junit.Test
+    @Test
     public void pageObject() throws Exception {
-        home.accessibilityClick();
-        back();
+        home.login();
 
-        home.animationClick();
-        back();
+
+        home.facebookLogin();
+
     }
 }
